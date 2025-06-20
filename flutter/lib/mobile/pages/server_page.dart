@@ -24,7 +24,7 @@ class ServerPage extends StatefulWidget implements PageShape {
 
   @override
   final appBarActions = (!bind.isDisableSettings() &&
-          bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) != 'Y')
+      bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) != 'Y')
       ? [_DropDownAction()]
       : [];
 
@@ -57,7 +57,7 @@ class _DropDownAction extends StatelessWidget {
           final showPasswordOption = approveMode != 'click';
           final isApproveModeFixed = isOptionFixed(kOptionApproveMode);
           final isNumericOneTimePasswordFixed =
-              isOptionFixed(kOptionAllowNumericOneTimePassword);
+          isOptionFixed(kOptionAllowNumericOneTimePassword);
           final isAllowNumericOneTimePassword =
               gFFI.serverModel.allowNumericOneTimePassword;
           return [
@@ -76,7 +76,7 @@ class _DropDownAction extends StatelessWidget {
             PopupMenuItem(
               value: 'AcceptSessionsViaClick',
               child:
-                  listTile('Accept sessions via click', approveMode == 'click'),
+              listTile('Accept sessions via click', approveMode == 'click'),
               enabled: !isApproveModeFixed,
             ),
             PopupMenuItem(
@@ -196,7 +196,8 @@ class _ServerPageState extends State<ServerPage> {
     return ChangeNotifierProvider.value(
         value: gFFI.serverModel,
         child: Consumer<ServerModel>(
-            builder: (context, serverModel, child) => SingleChildScrollView(
+            builder: (context, serverModel, child) =>
+                SingleChildScrollView(
                   controller: gFFI.serverModel.controller,
                   child: Center(
                     child: Column(
@@ -236,13 +237,13 @@ class ServiceNotRunningNotification extends StatelessWidget {
     return PaddingCard(
         title: translate("Service is not running"),
         titleIcon:
-            const Icon(Icons.warning_amber_sharp, color: Colors.redAccent),
+        const Icon(Icons.warning_amber_sharp, color: Colors.redAccent),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(translate("android_start_service_tip"),
-                    style:
-                        const TextStyle(fontSize: 12, color: MyTheme.darkGray))
+                style:
+                const TextStyle(fontSize: 12, color: MyTheme.darkGray))
                 .marginOnly(bottom: 8),
             ElevatedButton.icon(
                 icon: const Icon(Icons.play_arrow),
@@ -397,13 +398,13 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                         onPressed: isButtonLocked
                             ? null
                             : () {
-                                Navigator.of(context).pop();
-                                _serverModel.toggleService();
-                                if (show_warning) {
-                                  bind.mainSetLocalOption(
-                                      key: "show-scam-warning", value: "N");
-                                }
-                              },
+                          Navigator.of(context).pop();
+                          _serverModel.toggleService();
+                          if (show_warning) {
+                            bind.mainSetLocalOption(
+                                key: "show-scam-warning", value: "N");
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
                         ),
@@ -470,7 +471,7 @@ class ServerInfo extends StatelessWidget {
     const TextStyle textStyleHeading = TextStyle(
         fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.grey);
     const TextStyle textStyleValue =
-        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold);
 
     void copyToClipboard(String value) {
       Clipboard.setData(ClipboardData(text: value));
@@ -481,7 +482,7 @@ class ServerInfo extends StatelessWidget {
       if (serverModel.connectStatus == -1) {
         return Row(children: [
           const Icon(Icons.warning_amber_sharp,
-                  color: colorNegative, size: iconSize)
+              color: colorNegative, size: iconSize)
               .marginOnly(right: iconMarginRight),
           Expanded(child: Text(translate('not_ready_status')))
         ]);
@@ -509,7 +510,7 @@ class ServerInfo extends StatelessWidget {
           children: [
             Row(children: [
               const Icon(Icons.perm_identity,
-                      color: Colors.grey, size: iconSize)
+                  color: Colors.grey, size: iconSize)
                   .marginOnly(right: iconMarginRight),
               Text(
                 translate('ID'),
@@ -545,18 +546,18 @@ class ServerInfo extends StatelessWidget {
               !showOneTime
                   ? SizedBox.shrink()
                   : Row(children: [
-                      IconButton(
-                          visualDensity: VisualDensity.compact,
-                          icon: const Icon(Icons.refresh),
-                          onPressed: () => bind.mainUpdateTemporaryPassword()),
-                      IconButton(
-                          visualDensity: VisualDensity.compact,
-                          icon: Icon(Icons.copy_outlined),
-                          onPressed: () {
-                            copyToClipboard(
-                                model.serverPasswd.value.text.trim());
-                          })
-                    ])
+                IconButton(
+                    visualDensity: VisualDensity.compact,
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () => bind.mainUpdateTemporaryPassword()),
+                IconButton(
+                    visualDensity: VisualDensity.compact,
+                    icon: Icon(Icons.copy_outlined),
+                    onPressed: () {
+                      copyToClipboard(
+                          model.serverPasswd.value.text.trim());
+                    })
+              ])
             ]).marginOnly(left: 40, bottom: 15),
             ConnectionStateNotification()
           ],
@@ -581,20 +582,20 @@ class _PermissionCheckerState extends State<PermissionChecker> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           serverModel.mediaOk
               ? ElevatedButton.icon(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.red)),
-                      icon: const Icon(Icons.stop),
-                      onPressed: serverModel.toggleService,
-                      label: Text(translate("Stop service")))
-                  .marginOnly(bottom: 8)
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all(Colors.red)),
+              icon: const Icon(Icons.stop),
+              onPressed: serverModel.toggleService,
+              label: Text(translate("Stop service")))
+              .marginOnly(bottom: 8)
               : SizedBox.shrink(),
           PermissionRow(
               translate("Screen Capture"),
               serverModel.mediaOk,
               !serverModel.mediaOk &&
-                      gFFI.userModel.userName.value.isEmpty &&
-                      bind.mainGetLocalOption(key: "show-scam-warning") != "N"
+                  gFFI.userModel.userName.value.isEmpty &&
+                  bind.mainGetLocalOption(key: "show-scam-warning") != "N"
                   ? () => showScamWarning(context, serverModel)
                   : serverModel.toggleService),
           PermissionRow(translate("Input Control"), serverModel.inputOk,
@@ -603,15 +604,15 @@ class _PermissionCheckerState extends State<PermissionChecker> {
               serverModel.toggleFile),
           hasAudioPermission
               ? PermissionRow(translate("Audio Capture"), serverModel.audioOk,
-                  serverModel.toggleAudio)
+              serverModel.toggleAudio)
               : Row(children: [
-                  Icon(Icons.info_outline).marginOnly(right: 15),
-                  Expanded(
-                      child: Text(
-                    translate("android_version_audio_tip"),
-                    style: const TextStyle(color: MyTheme.darkGray),
-                  ))
-                ]),
+            Icon(Icons.info_outline).marginOnly(right: 15),
+            Expanded(
+                child: Text(
+                  translate("android_version_audio_tip"),
+                  style: const TextStyle(color: MyTheme.darkGray),
+                ))
+          ]),
           PermissionRow(translate("Enable clipboard"), serverModel.clipboardOk,
               serverModel.toggleClipboard),
         ]));
@@ -647,7 +648,8 @@ class ConnectionManager extends StatelessWidget {
     final serverModel = Provider.of<ServerModel>(context);
     return Column(
         children: serverModel.clients
-            .map((client) => PaddingCard(
+            .map((client) =>
+            PaddingCard(
                 title: translate(client.isFileTransfer
                     ? "File Connection"
                     : "Screen Connection"),
@@ -664,30 +666,33 @@ class ConnectionManager extends StatelessWidget {
                           child: client.isFileTransfer || !client.authorized
                               ? const SizedBox.shrink()
                               : IconButton(
-                                  onPressed: () {
-                                    gFFI.chatModel.changeCurrentKey(
-                                        MessageKey(client.peerId, client.id));
-                                    final bar = navigationBarKey.currentWidget;
-                                    if (bar != null) {
-                                      bar as BottomNavigationBar;
-                                      bar.onTap!(1);
-                                    }
-                                  },
-                                  icon: unreadTopRightBuilder(
-                                      client.unreadChatMessageCount)))
+                              onPressed: () {
+                                gFFI.chatModel.changeCurrentKey(
+                                    MessageKey(client.peerId, client.id));
+                                final bar = navigationBarKey.currentWidget;
+                                if (bar != null) {
+                                  bar as BottomNavigationBar;
+                                  bar.onTap!(1);
+                                }
+                              },
+                              icon: unreadTopRightBuilder(
+                                  client.unreadChatMessageCount)))
                     ],
                   ),
                   client.authorized
                       ? const SizedBox.shrink()
                       : Text(
-                          translate("android_new_connection_tip"),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ).marginOnly(bottom: 5),
+                    translate("android_new_connection_tip"),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyMedium,
+                  ).marginOnly(bottom: 5),
                   client.authorized
                       ? _buildDisconnectButton(client)
                       : _buildNewConnectionHint(serverModel, client),
                   if (client.incomingVoiceCall && !client.inVoiceCall)
-                    ..._buildNewVoiceCallHint(context, serverModel, client),
+                    ...serverModel.handleVoiceCall(client, true),
                 ])))
             .toList());
   }
@@ -749,12 +754,15 @@ class ConnectionManager extends StatelessWidget {
     ]);
   }
 
-  List<Widget> _buildNewVoiceCallHint(
-      BuildContext context, ServerModel serverModel, Client client) {
+  List<Widget> _buildNewVoiceCallHint(BuildContext context,
+      ServerModel serverModel, Client client) {
     return [
       Text(
         translate("android_new_voice_call_tip"),
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme
+            .of(context)
+            .textTheme
+            .bodyMedium,
       ).marginOnly(bottom: 5),
       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
         TextButton(
@@ -795,7 +803,8 @@ class PaddingCard extends StatelessWidget {
                   titleIcon?.marginOnly(right: 10) ?? const SizedBox.shrink(),
                   Expanded(
                     child: Text(title!,
-                        style: Theme.of(context)
+                        style: Theme
+                            .of(context)
                             .textTheme
                             .titleLarge
                             ?.merge(TextStyle(fontWeight: FontWeight.bold))),
@@ -812,7 +821,7 @@ class PaddingCard extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 0),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
             child: Column(
               children: children,
             ),
@@ -823,6 +832,7 @@ class PaddingCard extends StatelessWidget {
 
 class ClientInfo extends StatelessWidget {
   final Client client;
+
   ClientInfo(this.client);
 
   @override
@@ -839,7 +849,9 @@ class ClientInfo extends StatelessWidget {
                       child: CircleAvatar(
                           backgroundColor: str2color(
                               client.name,
-                              Theme.of(context).brightness == Brightness.light
+                              Theme
+                                  .of(context)
+                                  .brightness == Brightness.light
                                   ? 255
                                   : 150),
                           child: Text(client.name[0])))),
@@ -847,10 +859,11 @@ class ClientInfo extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text(client.name, style: const TextStyle(fontSize: 18)),
-                    const SizedBox(width: 8),
-                    Text(client.peerId, style: const TextStyle(fontSize: 10))
-                  ]))
+                        Text(client.name, style: const TextStyle(fontSize: 18)),
+                        const SizedBox(width: 8),
+                        Text(
+                            client.peerId, style: const TextStyle(fontSize: 10))
+                      ]))
             ],
           ),
         ]));

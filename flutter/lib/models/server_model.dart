@@ -764,7 +764,8 @@ class ServerModel with ChangeNotifier {
         _clients[index].incomingVoiceCall = client.incomingVoiceCall;
         if (client.incomingVoiceCall) {
           if (isAndroid) {
-            showVoiceCallDialog(client);
+            handleVoiceCall(client, true);
+            //showVoiceCallDialog(client);
           } else {
             // Has incoming phone call, let's set the window on top.
             Future.delayed(Duration.zero, () {
